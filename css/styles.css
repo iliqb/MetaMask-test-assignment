@@ -30,3 +30,13 @@ button {
 button:hover {
   background-color: #e2761b;
 }
+
+#account {
+  margin-top: 20px;
+  font-weight: bold;
+  word-break: break-all;
+}
+
+.hidden {
+  display: none;
+}

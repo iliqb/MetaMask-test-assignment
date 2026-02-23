@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web3 Landing</title>
+
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
@@ -11,8 +12,23 @@
     <div class="container">
       <h1>Web3 Landing</h1>
 
+      <!-- Button used to trigger MetaMask wallet connection -->
       <button id="connectBtn">Connect Wallet</button>
 
-    <script src="js/app.js"></script>
+      <!-- 
+        Wallet information section.
+        Initially hidden using the "hidden" CSS class.
+        It becomes visible after a successful wallet connection.
+      -->
+      <div id="walletInfo" class="wallet hidden">
+        <p><strong>Status:</strong> <span id="statusText"></span></p>
+        <p><strong>Address:</strong> <span id="walletAddress"></span></p>
+        <p><strong>Network:</strong> <span id="networkName"></span></p>
+        <p><strong>ETH Balance:</strong> <span id="ethBalance"></span></p>
+        <p><strong>USDT Balance:</strong> <span id="usdtBalance"></span></p>
+      </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
   </body>
 </html>
