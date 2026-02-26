@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Google Sans";
   background-color: #f4f6f8;
   display: flex;
   justify-content: center;
@@ -14,6 +14,19 @@ body {
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.loader {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  display: none;
+}
+
+.complete {
+  position: absolute;
+  width: 20em;
+  z-index: 2;
+  display: none;
 }
 
 button {

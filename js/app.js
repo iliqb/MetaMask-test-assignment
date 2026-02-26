@@ -2,7 +2,7 @@ import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.10.0/+esm";
 
 const USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
-// Minimal ABI: only the ERC20 methods required for balance display
+// Minimal ABI for balance display
 const ERC20_ABI = [
   "function balanceOf(address owner) view returns (uint256)",
   "function decimals() view returns (uint8)",
@@ -21,15 +21,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const networkName = document.getElementById("networkName");
   const ethBalanceEl = document.getElementById("ethBalance");
   const usdtBalanceEl = document.getElementById("usdtBalance");
+  const loader = document.getElementById("loader");
+  const complete = document.getElementById("complete");
+
+  /* =========================
+     UI HELPERS
+  ========================== */
+
+  function showLoader() {
+    loader.classList.remove("hidden");
+    complete.classList.add("hidden");
+  }
+
+  function hideLoader() {
+    loader.classList.add("hidden");
+  }
+
+  function showComplete() {
+    complete.classList.remove("hidden");
+    setTimeout(() => {
+      complete.classList.add("hidden");
+    }, 2000);
+  }
 
   function shortenAddress(address) {
     return address.slice(0, 6) + "..." + address.slice(-4);
   }
 
+  /* =========================
+     BALANCES
+  ========================== */
+
   async function loadETHBalance() {
     try {
-      const balance = await provider.getBalance(currentAccount); // Returns balance in wei (BigInt)
-      const formatted = ethers.formatEther(balance); // Convert wei → ETH
+      const balance = await provider.getBalance(currentAccount);
+      const formatted = ethers.formatEther(balance);
       ethBalanceEl.innerText = parseFloat(formatted).toFixed(4) + " ETH";
     } catch (error) {
       console.error("ETH balance error:", error);
@@ -39,8 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadUSDTBalance() {
     try {
-      const balance = await usdtContract.balanceOf(currentAccount); // Raw token balance
-      const decimals = await usdtContract.decimals(); // Needed for proper unit conversion
+      const balance = await usdtContract.balanceOf(currentAccount);
+      const decimals = await usdtContract.decimals();
       const formatted = ethers.formatUnits(balance, decimals);
       usdtBalanceEl.innerText = parseFloat(formatted).toFixed(2) + " USDT";
     } catch (error) {
@@ -49,107 +75,126 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* =========================
+     NETWORK
+  ========================== */
+
   async function switchToMainnet() {
-    try {
-      // Forces wallet to switch to Ethereum Mainnet (chainId 0x1)
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x1" }],
-      });
-    } catch (error) {
-      console.error("Network switch error:", error);
-      throw error;
-    }
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x1" }],
+    });
   }
+
+  /* =========================
+     WALLET SETUP
+  ========================== */
 
   async function setupWallet() {
-    const network = await provider.getNetwork();
+    try {
+      let network = await provider.getNetwork();
 
-    // Ensure the app runs only on Ethereum Mainnet
-    if (network.chainId !== 1n) {
-      await switchToMainnet();
-    }
+      if (network.chainId !== 1n) {
+        try {
+          await switchToMainnet();
+        } catch (error) {
+          statusText.innerText = "Please switch to Ethereum Mainnet ⚠️";
+          return;
+        }
+      }
 
-    const updatedNetwork = await provider.getNetwork();
-    networkName.innerText = updatedNetwork.name;
+      network = await provider.getNetwork();
+      networkName.innerText = network.name;
 
-    // Instantiate USDT contract connected to the provider
-    usdtContract = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, provider);
+      usdtContract = new ethers.Contract(USDT_ADDRESS, ERC20_ABI, provider);
 
-    walletInfo.classList.remove("hidden");
-    statusText.innerText = "Connected ✅";
-    walletAddress.innerText = shortenAddress(currentAccount);
-    connectBtn.innerText = "Connected";
+      walletInfo.classList.remove("hidden");
+      statusText.innerText = "Connected ✅";
+      walletAddress.innerText = shortenAddress(currentAccount);
+      connectBtn.innerText = "Connected";
 
-    await loadETHBalance();
-    await loadUSDTBalance();
-
-    // Prevent duplicate block listeners
-    if (blockListener) {
-      provider.off("block", blockListener);
-    }
-
-    // Re-fetch balances on every new block
-    blockListener = async () => {
       await loadETHBalance();
       await loadUSDTBalance();
-    };
 
-    provider.on("block", blockListener);
+      // Prevent duplicate listeners
+      if (blockListener) {
+        provider.off("block", blockListener);
+      }
+
+      blockListener = async () => {
+        await loadETHBalance();
+        await loadUSDTBalance();
+      };
+
+      provider.on("block", blockListener);
+    } catch (error) {
+      console.error("Setup error:", error);
+    }
   }
+
+  /* =========================
+     CONNECT WALLET
+  ========================== */
 
   async function connectWallet() {
     try {
-      if (!window.ethereum) {
-        alert("MetaMask not installed");
-        return;
-      }
+      showLoader();
+      statusText.innerText = "Connecting...";
 
-      // BrowserProvider connects ethers.js to the injected wallet (MetaMask)
       provider = new ethers.BrowserProvider(window.ethereum);
 
-      // Request account access from the user
-      const accounts = await provider.send("eth_requestAccounts", []);
-      currentAccount = accounts[0];
+      await provider.send("eth_requestAccounts", []);
+
+      const signer = await provider.getSigner();
+      currentAccount = await signer.getAddress();
 
       await setupWallet();
+
+      hideLoader();
+      showComplete();
     } catch (error) {
       console.error("Connection error:", error);
+      hideLoader();
       statusText.innerText = "Connection failed ❌";
     }
   }
 
-  async function checkIfAlreadyConnected() {
-    if (!window.ethereum) return;
+  /* =========================
+     AUTO RECONNECT
+  ========================== */
 
+  async function checkIfAlreadyConnected() {
     provider = new ethers.BrowserProvider(window.ethereum);
+
     const accounts = await provider.listAccounts();
 
-    // Auto-initialize if wallet was previously authorized
     if (accounts.length > 0) {
-      currentAccount = accounts[0].address;
+      const signer = await provider.getSigner();
+      currentAccount = await signer.getAddress();
       await setupWallet();
     }
   }
 
+  /* =========================
+     EVENTS
+  ========================== */
+
   connectBtn.addEventListener("click", connectWallet);
 
-  if (window.ethereum) {
-    window.ethereum.on("accountsChanged", async (accounts) => {
-      if (accounts.length === 0) {
-        window.location.reload(); // Wallet disconnected
-      } else {
-        currentAccount = accounts[0];
-        walletAddress.innerText = shortenAddress(currentAccount);
-        await loadETHBalance();
-        await loadUSDTBalance();
-      }
-    });
+  window.ethereum.on("accountsChanged", async (accounts) => {
+    if (accounts.length === 0) {
+      window.location.reload();
+    } else {
+      currentAccount = accounts[0];
+      walletAddress.innerText = shortenAddress(currentAccount);
+      await loadETHBalance();
+      await loadUSDTBalance();
+    }
+  });
 
-    window.ethereum.on("chainChanged", () => {
-      window.location.reload(); // Reinitialize app on network change
-    });
-  }
+  window.ethereum.on("chainChanged", () => {
+    window.location.reload();
+  });
 
   checkIfAlreadyConnected();
 });
