@@ -13,8 +13,22 @@
   </head>
 
   <body>
-    cd
+    <div id="metamask-warning" class="hidden">
+      <div class="warning-card">
+        <h1>MetaMask is not installed</h1>
+        <p>Please install MetaMask to use this application.</p>
+        <a
+          href="https://metamask.io/download/"
+          target="_blank"
+          class="install-btn"
+        >
+          Install MetaMask
+        </a>
+      </div>
+    </div>
+
     <div class="container">
+      <!-- lottie animations -->
       <div id="loader" class="hidden">
         <dotlottie-wc
           src="https://lottie.host/5a93d5bf-f908-4a06-9db2-8042cc1d384b/WeHyOY518D.lottie"
@@ -31,6 +45,7 @@
           loop
         ></dotlottie-wc>
       </div>
+
       <h2>Web3 Landing</h2>
 
       <!-- Button used to trigger MetaMask wallet connection -->
@@ -51,10 +66,6 @@
     </div>
 
     <script type="module" src="js/app.js"></script>
-    <script
-      src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.3/dist/dotlottie-wc.js"
-      type="module"
-    ></script>
     <script
       src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.3/dist/dotlottie-wc.js"
       type="module"
