@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
       usdtDecimals = await usdtContract.decimals();
 
       walletInfo.classList.remove("hidden");
-      statusText.innerText = "Connected ✅";
+      statusText.innerText = "Connected 🟢";
       walletAddress.innerText = shortenAddress(currentAccount);
       connectBtn.innerText = "Connected";
 

@@ -1,94 +1,229 @@
+/* ===== VARIABLES Y RESET ===== */
+:root {
+  --primary: #f6851b;
+  --primary-light: #ffb96a;
+  --primary-dark: #e56700;
+  --surface: #ffffff;
+  --background: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-light: #e2e8f0;
+  --border-soft: rgba(203, 213, 225, 0.4);
+  --shadow-sm:
+    0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-md:
+    0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-lg:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  --shadow-primary: 0 8px 16px -6px rgba(246, 133, 27, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-family: "Google Sans";
-  background-color: #f4f6f8;
+  font-family: "Inter";
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--background);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
+  padding: 16px;
 }
 
-.warning-card {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
+h1,
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: var(--text-primary);
 }
+
+/* ===== metamask warnig===== */
 #metamask-warning {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-
-  background: rgba(0, 0, 0, 0.6);
-
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.install-btn {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: #f6851b;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.install-btn:hover {
-  opacity: 0.9;
+.warning-card {
+  background: var(--surface);
+  padding: 48px 32px;
+  border-radius: 32px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-soft);
+  max-width: 600px;
+  text-align: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  animation: fadeUp 0.5s ease-out;
 }
 
 .container {
+  background: var(--surface);
+  padding: 48px 32px;
+  border-radius: 32px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-soft);
+  max-width: 480px;
+  width: 100%;
   text-align: center;
-  background: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: fadeUp 0.5s ease-out;
 }
+
+button,
+.install-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  border-radius: 40px;
+  font-weight: bold;
+  font-size: 16px;
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-primary);
+  font-size: 18px;
+  text-decoration: none;
+  line-height: 1;
+  margin-top: 16px;
+}
+
+button:hover,
+.install-btn:hover {
+  transform: scale(1.02);
+  background: linear-gradient(
+    135deg,
+    var(--primary-light) 0%,
+    var(--primary) 100%
+  );
+  box-shadow: 0 12px 20px -8px rgba(246, 133, 27, 0.6);
+}
+
+button:active,
+.install-btn:active {
+  transform: scale(0.98);
+}
+
 .loader {
-  width: 200px;
+  width: 20px;
   height: 200px;
-  margin: 0 auto;
+  margin: 20px auto;
   display: none;
 }
 
 .complete {
-  position: absolute;
-  width: 20em;
-  z-index: 2;
-  display: none;
+  width: 80px;
+  height: 80px;
+  margin: 20px auto;
+  display: flex;
 }
 
 button {
-  padding: 12px 24px;
+  display: inline-block;
+  padding: 14px 40px;
+  border-radius: 40px;
+  font-weight: bold;
   font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: #f6851b;
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-dark) 100%
+  );
   color: white;
-  transition: 0.2s ease;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-primary);
+  font-size: 18px;
+  text-decoration: none;
+  line-height: 1;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 button:hover {
-  background-color: #e2761b;
+  transform: scale(1.02);
+  background: linear-gradient(
+    135deg,
+    var(--primary-light) 0%,
+    var(--primary) 100%
+  );
+  box-shadow: 0 12px 20px -8px rgba(246, 133, 27, 0.6);
 }
 
-#account {
-  margin-top: 20px;
-  font-weight: bold;
-  word-break: break-all;
+button:active {
+  transform: scale(0.98);
 }
 
 .hidden {
   display: none !important;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .warning-card,
+  .container {
+    padding: 32px 20px;
+    border-radius: 24px;
+  }
+
+  button,
+  .install-btn {
+    padding: 12px 24px;
+    font-size: 15px;
+    width: 50%;
+  }
 }
