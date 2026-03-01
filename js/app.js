@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const warning = document.getElementById("metamask-warning");
 
   /* =========================
-     WALLET DETECTION (ROBUSTA)
+     WALLET DETECTION 
   ========================== */
 
   function checkExtension() {

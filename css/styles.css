@@ -46,6 +46,22 @@ h2 {
   color: var(--text-primary);
 }
 
+#loader,
+#complete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 200px;
+  margin: 0 auto;
+}
+
+dotlottie-wc {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
 /* ===== metamask warnig===== */
 #metamask-warning {
   position: fixed;
@@ -126,20 +142,6 @@ button:hover,
 button:active,
 .install-btn:active {
   transform: scale(0.98);
-}
-
-.loader {
-  width: 20px;
-  height: 200px;
-  margin: 20px auto;
-  display: none;
-}
-
-.complete {
-  width: 80px;
-  height: 80px;
-  margin: 20px auto;
-  display: flex;
 }
 
 button {
