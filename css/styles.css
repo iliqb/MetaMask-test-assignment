@@ -33,8 +33,8 @@ body {
     -120deg,
     #ffffff 0%,
     #e7dccb 25%,
-    #e68638 70%,
-    #fc993d 100%
+    #f3b684 70%,
+    #fab26e 100%
   );
   display: flex;
   flex-direction: column;
@@ -50,6 +50,14 @@ h2 {
   font-weight: bold;
   margin-bottom: 16px;
   color: var(--text-primary);
+}
+
+#toggleDark {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  padding: 10px 10px;
 }
 
 #loader,
@@ -101,6 +109,7 @@ dotlottie-wc {
 
 .container {
   background: var(--surface);
+  display: auto;
   padding: 48px 32px;
   border-radius: 32px;
   box-shadow: var(--shadow-md);

@@ -1,0 +1,30 @@
+body.dark {
+  --surface: #0f172a;
+  --background: #475569;
+  --text-primary: #ffffff;
+  --text-secondary: #f8fafc;
+}
+
+body.dark {
+  color: var(--text-primary);
+  background: linear-gradient(
+    -120deg,
+    #0e0e0e 0%,
+    #281a11 25%,
+    #7f3115 70%,
+    #f99422 100%
+  );
+}
+
+body.dark h1,
+body.dark h2 {
+  color: var(--primary);
+}
+
+body.dark .container {
+  background: var(--surface);
+}
+
+body.dark footer {
+  color: var(--text-secondary);
+}

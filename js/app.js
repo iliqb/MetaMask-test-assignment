@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loader = document.getElementById("loader");
   const complete = document.getElementById("complete");
   const warning = document.getElementById("metamask-warning");
-
+  const button = document.getElementById("toggleDark");
   /* =========================
      WALLET DETECTION 
   ========================== */
@@ -52,6 +52,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     setTimeout(checkExtension, 500);
   }
+  /* =========================
+     Dark button
+  ========================== */
+
+  button.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+  });
 
   /* =========================
      UI HELPERS
