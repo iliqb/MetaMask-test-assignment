@@ -33,11 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof window.ethereum !== "undefined") {
       warning.classList.add("hidden");
       connectBtn.classList.remove("hidden");
+      connectBtn.disabled = false;
       console.log("Wallet installed");
       checkIfAlreadyConnected();
     } else {
       warning.classList.remove("hidden");
       connectBtn.classList.add("hidden");
+      connectBtn.disabled = true;
       console.log("Wallet no installed");
     }
   }
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("ethereum#initialized", checkExtension, {
       once: true,
     });
-    setTimeout(checkExtension, 1000);
+    setTimeout(checkExtension, 500);
   }
 
   /* =========================
@@ -72,33 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function shortenAddress(address) {
-    return address.slice(0, 6) + "..." + address.slice(-4);
-  }
-
-  /* =========================
-     BALANCES
-  ========================== */
-
-  async function loadETHBalance() {
-    try {
-      const balance = await provider.getBalance(currentAccount);
-      const formatted = ethers.formatEther(balance);
-      ethBalanceEl.innerText = parseFloat(formatted).toFixed(4) + " ETH";
-    } catch (error) {
-      console.error("ETH balance error:", error);
-      ethBalanceEl.innerText = "Error";
-    }
-  }
-
-  async function loadUSDTBalance() {
-    try {
-      const balance = await usdtContract.balanceOf(currentAccount);
-      const formatted = ethers.formatUnits(balance, usdtDecimals);
-      usdtBalanceEl.innerText = parseFloat(formatted).toFixed(2) + " USDT";
-    } catch (error) {
-      console.error("USDT balance error:", error);
-      usdtBalanceEl.innerText = "Error";
-    }
+    return "..." + address.slice(-4);
   }
 
   /* =========================
@@ -181,6 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const signer = await provider.getSigner();
       currentAccount = await signer.getAddress();
 
+      connectBtn.classList.add("hidden");
+
       await setupWallet();
 
       hideLoader();
@@ -210,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (accounts.length > 0) {
       const signer = await provider.getSigner();
+      connectBtn.classList.add("hidden");
       currentAccount = await signer.getAddress();
       await setupWallet();
     }
@@ -236,5 +215,31 @@ document.addEventListener("DOMContentLoaded", () => {
     window.ethereum.on("chainChanged", () => {
       window.location.reload();
     });
+  }
+
+  /* =========================
+     BALANCES
+  ========================== */
+
+  async function loadETHBalance() {
+    try {
+      const balance = await provider.getBalance(currentAccount);
+      const formatted = ethers.formatEther(balance);
+      ethBalanceEl.innerText = parseFloat(formatted).toFixed(4) + " ETH";
+    } catch (error) {
+      console.error("ETH balance error:", error);
+      ethBalanceEl.innerText = "Error";
+    }
+  }
+
+  async function loadUSDTBalance() {
+    try {
+      const balance = await usdtContract.balanceOf(currentAccount);
+      const formatted = ethers.formatUnits(balance, usdtDecimals);
+      usdtBalanceEl.innerText = parseFloat(formatted).toFixed(2) + " USDT";
+    } catch (error) {
+      console.error("USDT balance error:", error);
+      usdtBalanceEl.innerText = "Error";
+    }
   }
 });

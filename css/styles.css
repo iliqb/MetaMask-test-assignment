@@ -29,9 +29,15 @@ body {
   font-size: 20px;
   line-height: 1.5;
   color: var(--text-primary);
-  background-color: var(--background);
+  background: linear-gradient(
+    -120deg,
+    #ffffff 0%,
+    #e7dccb 25%,
+    #e68638 70%,
+    #fc993d 100%
+  );
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
   margin: 0;
@@ -52,7 +58,7 @@ h2 {
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 200px;
+  min-height: 50px;
   margin: 0 auto;
 }
 
@@ -101,6 +107,7 @@ dotlottie-wc {
   border: 1px solid var(--border-soft);
   max-width: 480px;
   width: 100%;
+  margin: auto;
   text-align: center;
   animation: fadeUp 0.5s ease-out;
 }
@@ -183,6 +190,21 @@ button:active {
 
 .hidden {
   display: none !important;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+footer {
+  width: 100%;
+  background: transparent;
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: smaller;
+  padding: 16px;
+  margin-top: auto;
 }
 
 /* ===== ANIMATIONS ===== */
