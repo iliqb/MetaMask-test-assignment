@@ -50,7 +50,19 @@
     <div class="container">
       <img src="assets/favicon-128x128.png" alt="logo"  width="50"
           height="50">
-      <h2>MetaMask Viewer</i></h2>
+
+       <!-- Btn info -->
+    <button class="info-btn" id="infoBtn">
+        <img src="assets/informacion.png"  alt="Info">
+    </button>
+    <div class="modal" id="infoModal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeBtn">&times;</span>
+        <p>Connect your MetaMask wallet to view your address, current network, and your ETH and USDT balances on Ethereum Mainnet..</p>
+    </div>
+</div>
+
+          <h2>MetaMask Viewer</h2>
 
       <!-- Button used to trigger MetaMask wallet connection -->
       <button id="connectBtn" disabled>Connect MetaMask Wallet</button>
@@ -64,14 +76,14 @@
         <p><strong>Status:</strong> <span id="statusText"></span></p>
         <p><strong>Address:</strong> <span id="walletAddress"></span></p>
         <p><strong>Network:</strong> <span id="networkName"></span></p>
-        <p><strong>ETH Balance:</strong> <span id="ethBalance"></span></p>
-        <p><strong>USDT Balance:</strong> <span id="usdtBalance"></span></p>
+        <p><strong><img src="assets/Ethereum_Logo.png" style="width:20px; height: auto"> ETH Balance:</strong> <span id="ethBalance"></span></p>
+        <p><strong><img src="assets/usdt.png" style="width:20px; height: auto">USDT Balance:</strong> <span id="usdtBalance"></span></p>
       </div>
       <!-- lottie animations -->
       <div id="loader" class="hidden">
         <dotlottie-wc
           src="https://lottie.host/bdeedcfe-ca58-46e6-95e5-c7fe68fde0fe/DLzAQphJKr.lottie"
-          style="width: 300px; height: 300px"
+          style="width: 50px; height: 50px"
           autoplay
           loop
         ></dotlottie-wc>
@@ -79,7 +91,7 @@
       <div id="complete" class="hidden">
         <dotlottie-wc
           src="https://lottie.host/f668342b-bd75-4bdd-8d32-c3ce81703793/xMuviba2Ye.lottie"
-          style="width: 300px; height: 300px"
+          style="width: 50px; height: 50px"
           autoplay
           loop
         ></dotlottie-wc>

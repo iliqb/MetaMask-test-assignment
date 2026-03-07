@@ -25,6 +25,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const complete = document.getElementById("complete");
   const warning = document.getElementById("metamask-warning");
   const button = document.getElementById("toggleDark");
+  const infoBtn = document.getElementById("infoBtn");
+  const modal = document.getElementById("infoModal");
+  const closeBtn = document.getElementById("closeBtn");
+
+  /* =========================
+     info btn
+  ========================== */
+
+  infoBtn.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
   /* =========================
      WALLET DETECTION 
   ========================== */
