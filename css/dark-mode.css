@@ -23,6 +23,10 @@ body.dark h2 {
 
 body.dark .container {
   background: var(--surface);
+  box-shadow:
+    0 10px 15px -3px rgba(44, 43, 43, 0.08),
+    0 4px 6px -4px rgb(0 0 0 / 0.05);
+  border-color: #363636;
 }
 
 body.dark footer {
