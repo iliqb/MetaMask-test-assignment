@@ -259,6 +259,12 @@ button:disabled {
   cursor: not-allowed;
 }
 
+table {
+  width: 100%;
+  padding: 10px;
+  text-align: justify;
+}
+
 footer {
   width: 100%;
   background: transparent;

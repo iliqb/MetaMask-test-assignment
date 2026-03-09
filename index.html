@@ -76,8 +76,24 @@
         <p><strong>Status:</strong> <span id="statusText"></span></p>
         <p><strong>Address:</strong> <span id="walletAddress"></span></p>
         <p><strong>Network:</strong> <span id="networkName"></span></p>
-        <p><strong><img src="assets/Ethereum_Logo.png" style="width:20px; height: auto"> ETH Balance:</strong> <span id="ethBalance"></span></p>
-        <p><strong><img src="assets/usdt.png" style="width:20px; height: auto">USDT Balance:</strong> <span id="usdtBalance"></span></p>
+
+        <table>
+  <tr>
+    <th>Coin</th>
+    <th>My Balance</th>
+    <th>Price </th>
+  </tr>
+  <tr>
+    <td><strong><img src="assets/Ethereum_Logo.png" style="width:20px; height: auto">ETH</strong></td>
+    <td><span id="ethBalance"></span></td>
+    <td><span id="ethPrice"></span></td>
+  </tr>
+  <tr>
+    <td><strong><img src="assets/usdt.png" style="width:20px; height: auto">USDT</strong></td>
+    <td><span id="usdtBalance"></span></td>
+    <td><span id="usdtPrice"></span></td>
+  </tr>
+</table>
       </div>
       <!-- lottie animations -->
       <div id="loader" class="hidden">

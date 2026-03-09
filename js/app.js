@@ -254,7 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ethBalanceEl.innerText = "Error";
     }
   }
-
   async function loadUSDTBalance() {
     try {
       const balance = await usdtContract.balanceOf(currentAccount);
@@ -265,4 +264,26 @@ document.addEventListener("DOMContentLoaded", () => {
       usdtBalanceEl.innerText = "Error";
     }
   }
+  /* =========================
+     PRICE 
+  ========================== */
+  async function loadPrices() {
+    try {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,tether&vs_currencies=usd",
+      );
+      const data = await response.json();
+      const ethPrice = data.ethereum.usd;
+      const usdtPrice = data.tether.usd;
+      document.getElementById("ethPrice").innerText = "$" + ethPrice;
+      document.getElementById("usdtPrice").innerText = "$" + usdtPrice;
+    } catch (error) {
+      console.error("Error fetching prices:", error);
+    }
+  }
+
+  // Initial fetch
+  loadPrices();
+  // Update every 30 seconds
+  setInterval(loadPrices, 30000);
 });
