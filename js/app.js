@@ -12,6 +12,7 @@ let currentAccount;
 let usdtContract;
 let blockListener;
 let usdtDecimals;
+let lastPrice = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   const connectBtn = document.getElementById("connectBtn");
@@ -28,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const infoBtn = document.getElementById("infoBtn");
   const modal = document.getElementById("infoModal");
   const closeBtn = document.getElementById("closeBtn");
+  const copyBtn = document.getElementById("copyAddressBtn");
 
   /* =========================
      info btn
@@ -217,6 +219,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  async function copyAddress() {
+    if (!currentAccount) return;
+    try {
+      await navigator.clipboard.writeText(currentAccount);
+      const originalText = copyBtn.innerText;
+      copyBtn.innerText = "✅";
+      setTimeout(() => {
+        copyBtn.innerText = originalText;
+      }, 1500);
+    } catch (err) {
+      console.error("Copy error:", err);
+      alert("The address could not be copied");
+    }
+  }
+  copyBtn.addEventListener("click", copyAddress);
   /* =========================
      EVENTS
   ========================== */
@@ -286,4 +303,15 @@ document.addEventListener("DOMContentLoaded", () => {
   loadPrices();
   // Update every 30 seconds
   setInterval(loadPrices, 30000);
+
+  function updatePrice(newPrice) {
+    const price = document.getElementById("ethPrice");
+
+    if (newPrice > lastPrice) {
+      price.style.color = "green";
+    } else if (newPrice < lastPrice) {
+      price.style.color = "red";
+    }
+  }
+  updatePrice(data.ethereum.usd);
 });
