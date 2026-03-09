@@ -23,7 +23,7 @@
     />
 
     <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/dark-mode.css" />
   </head>
 
   <body>
@@ -46,23 +46,25 @@
         </a>
       </div>
     </div>
-<button id="toggleDark">🌙</i></button>
+    <button id="toggleDark">🌙</button>
     <div class="container">
-      <img src="assets/favicon-128x128.png" alt="logo"  width="50"
-          height="50">
+      <img src="assets/favicon-128x128.png" alt="logo" width="50" height="50" />
 
-       <!-- Btn info -->
-    <button class="info-btn" id="infoBtn">
-        <img src="assets/informacion.png"  alt="Info">
-    </button>
-    <div class="modal" id="infoModal">
-    <div class="modal-content">
-        <span class="close-btn" id="closeBtn">&times;</span>
-        <p>Connect your MetaMask wallet to view your address, current network, and your ETH and USDT balances on Ethereum Mainnet.</p>
-    </div>
-</div>
+      <!-- Btn info -->
+      <button class="info-btn" id="infoBtn">
+        <img src="assets/informacion.png" alt="Info" />
+      </button>
+      <div class="modal" id="infoModal">
+        <div class="modal-content">
+          <span class="close-btn" id="closeBtn">&times;</span>
+          <p>
+            Connect your MetaMask wallet to view your address, current network,
+            and your ETH and USDT balances on Ethereum Mainnet.
+          </p>
+        </div>
+      </div>
 
-          <h2>MetaMask Viewer</h2>
+      <h2>MetaMask Viewer</h2>
 
       <!-- Button used to trigger MetaMask wallet connection -->
       <button id="connectBtn" disabled>Connect MetaMask Wallet</button>
@@ -74,26 +76,43 @@
       -->
       <div id="walletInfo" class="wallet hidden">
         <p><strong>Status:</strong> <span id="statusText"></span></p>
-        <p><strong>Address:</strong> <span id="walletAddress"></span>  <button id="copyAddressBtn" title="Copy full address">📄</button> </p> 
+        <p>
+          <strong>Address:</strong> <span id="walletAddress"></span>
+          <button id="copyAddressBtn" title="Copy full address">📄</button>
+        </p>
         <p><strong>Network:</strong> <span id="networkName"></span></p>
 
         <table>
-  <tr>
-    <th>Coin</th>
-    <th>My Balance</th>
-    <th>Price </th>
-  </tr>
-  <tr>
-    <td><strong><img src="assets/Ethereum_Logo.png" style="width:20px; height: auto">ETH</strong></td>
-    <td><span id="ethBalance"></span></td>
-    <td><span id="ethPrice"></span></td>
-  </tr>
-  <tr>
-    <td><strong><img src="assets/usdt.png" style="width:20px; height: auto">USDT</strong></td>
-    <td><span id="usdtBalance"></span></td>
-    <td><span id="usdtPrice"></span></td>
-  </tr>
-</table>
+          <tr>
+            <th>Coin</th>
+            <th>My Balance</th>
+            <th>Price</th>
+          </tr>
+          <tr>
+            <td>
+              <strong
+                ><img
+                  src="assets/Ethereum_Logo.png"
+                  style="width: 20px; height: auto; align-items: center"
+                  ;
+                />
+                ETH</strong
+              >
+            </td>
+            <td><span id="ethBalance"></span></td>
+            <td><span id="ethPrice"></span></td>
+          </tr>
+          <tr>
+            <td>
+              <strong
+                ><img src="assets/usdt.png" style="width: 20px; height: auto" />
+                USDT</strong
+              >
+            </td>
+            <td><span id="usdtBalance"></span></td>
+            <td><span id="usdtPrice"></span></td>
+          </tr>
+        </table>
       </div>
       <!-- lottie animations -->
       <div id="loader" class="hidden">

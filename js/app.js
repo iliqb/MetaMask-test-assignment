@@ -284,34 +284,43 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================
      PRICE 
   ========================== */
+
+  const ethPriceEl = document.getElementById("ethPrice");
+  const usdtPriceEl = document.getElementById("usdtPrice");
+
   async function loadPrices() {
     try {
       const response = await fetch(
-        "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,tether&vs_currencies=usd",
+        "https://corsproxy.io/?https://api.coingecko.com/api/v3/simple/price?ids=ethereum,tether&vs_currencies=usd",
       );
+
       const data = await response.json();
+
       const ethPrice = data.ethereum.usd;
       const usdtPrice = data.tether.usd;
-      document.getElementById("ethPrice").innerText = "$" + ethPrice;
-      document.getElementById("usdtPrice").innerText = "$" + usdtPrice;
+
+      updatePrice(ethPrice);
+
+      usdtPriceEl.innerText = "$" + usdtPrice.toFixed(2);
     } catch (error) {
       console.error("Error fetching prices:", error);
     }
   }
 
-  // Initial fetch
-  loadPrices();
-  // Update every 30 seconds
-  setInterval(loadPrices, 30000);
-
   function updatePrice(newPrice) {
-    const price = document.getElementById("ethPrice");
-
-    if (newPrice > lastPrice) {
-      price.style.color = "green";
-    } else if (newPrice < lastPrice) {
-      price.style.color = "red";
+    if (lastPrice !== null) {
+      if (newPrice > lastPrice) {
+        ethPriceEl.style.color = "lime";
+      } else if (newPrice < lastPrice) {
+        ethPriceEl.style.color = "red";
+      }
     }
+
+    ethPriceEl.innerText = "$" + newPrice.toFixed(2);
+
+    lastPrice = newPrice;
   }
-  updatePrice(data.ethereum.usd);
+
+  loadPrices();
+  setInterval(loadPrices, 15000);
 });
