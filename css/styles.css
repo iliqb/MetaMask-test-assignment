@@ -115,6 +115,7 @@ dotlottie-wc {
   display: auto;
   object-fit: cover;
   padding: 48px 32px;
+  padding-bottom: 10px;
   border-radius: 32px;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-soft);
@@ -260,6 +261,13 @@ button:disabled {
   cursor: not-allowed;
 }
 
+#metamask {
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+  margin-bottom: -5px;
+}
+
 #copyAddressBtn {
   background: none;
   border: none;
@@ -271,6 +279,10 @@ button:disabled {
   transition: transform 0.1s;
   box-shadow: none;
   color: inherit;
+}
+
+#disconnectBtn {
+  position: bottom;
 }
 
 table {

@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("infoModal");
   const closeBtn = document.getElementById("closeBtn");
   const copyBtn = document.getElementById("copyAddressBtn");
+  const disconnectBtn = document.getElementById("disconnectBtn");
 
   /* =========================
      info btn
@@ -142,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
       usdtDecimals = await usdtContract.decimals();
 
       walletInfo.classList.remove("hidden");
+      disconnectBtn.classList.remove("hidden");
       statusText.innerText = "Connected 🟢";
       walletAddress.innerText = shortenAddress(currentAccount);
       connectBtn.innerText = "Connected";
@@ -323,4 +325,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadPrices();
   setInterval(loadPrices, 15000);
+
+  /* =========================
+     Disconnect  
+  ========================== */
+  function disconnectWallet() {
+    if (blockListener) {
+      provider.off("block", blockListener);
+      blockListener = null;
+    }
+
+    currentAccount = null;
+    provider = null;
+    usdtContract = null;
+    usdtDecimals = null;
+
+    // hiden info
+    walletInfo.classList.add("hidden");
+    disconnectBtn.classList.add("hidden");
+    connectBtn.classList.remove("hidden");
+    connectBtn.innerText = "Connect Wallet";
+    statusText.innerText = "Disconnected ⚪";
+    ethBalanceEl.innerText = "—";
+    usdtBalanceEl.innerText = "—";
+    networkName.innerText = "—";
+    walletAddress.innerText = "";
+  }
+
+  disconnectBtn.addEventListener("click", disconnectWallet);
 });
