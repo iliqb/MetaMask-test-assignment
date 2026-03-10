@@ -40,10 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "block";
   });
 
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.classList.add("hidden");
+    }
   });
-
   /* =========================
      WALLET DETECTION 
   ========================== */
@@ -144,6 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       walletInfo.classList.remove("hidden");
       disconnectBtn.classList.remove("hidden");
+      infoBtn.classList.add("hidden");
       statusText.innerText = "Connected 🟢";
       walletAddress.innerText = shortenAddress(currentAccount);
       connectBtn.innerText = "Connected";

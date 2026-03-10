@@ -29,6 +29,10 @@ body.dark .container {
   border-color: #363636;
 }
 
+body.dark .info-btn img {
+  filter: invert(1);
+}
+
 body.dark footer {
   color: var(--text-secondary);
 }
