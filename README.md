@@ -95,6 +95,13 @@ The project took approximately 30-40 hours to complete, including:
 
 -Deployment
 
+---
+## Things that can be improve
+- **Smooth container animations** – Added subtle transitions to the main container to prevent abrupt size changes when loading data or connecting. Implemented using fixed container height and CSS 
+- **Session disconnect message** – Displays a friendly notification when the user disconnects their wallet, implemented using a modal with fade-in/out transitions to improve UX.
+- **Token list detection** – Automatically detect and display balances of other ERC-20 tokens held by the wallet. 
+
+
 ## Author
 
 **Iliana Quintero**
