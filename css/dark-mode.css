@@ -36,3 +36,8 @@ body.dark .info-btn img {
 body.dark footer {
   color: var(--text-secondary);
 }
+
+body.dark a {
+  color: white;
+  font-weight: bold;
+}
