@@ -47,7 +47,9 @@ The goal of this assignment was to build and deploy a functional Web3 interface 
 
 -Modal with project information
 
--Tech Stack
+---
+
+## Tech Stack
 
 -HTML
 
