@@ -377,10 +377,12 @@ table {
   text-align: justify;
 }
 
-#myETH {
+#myETH,
+#myUSDT {
   color: var(--text-secondary);
   font-size: 16px;
   text-align: justify;
+  display: block;
 }
 
 footer {

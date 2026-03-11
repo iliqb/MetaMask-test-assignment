@@ -12,7 +12,6 @@ let currentAccount;
 let usdtContract;
 let blockListener;
 let usdtDecimals;
-let lastPrice = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   const connectBtn = document.getElementById("connectBtn");
@@ -30,6 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("infoModal");
   const copyBtn = document.getElementById("copyAddressBtn");
   const disconnectBtn = document.getElementById("disconnectBtn");
+  const myETH = document.getElementById("myETH");
+  const myUSDT = document.getElementById("myUSDT");
 
   /* =========================
      info btn
@@ -302,12 +303,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
 
+      let currentEthPrice;
+
       if (data.price) {
-        const currentEthPrice = parseFloat(data.price);
+        currentEthPrice = parseFloat(data.price);
         updateEthUI(currentEthPrice);
       } else {
         console.warn("ETH price was not received");
       }
+      const ethBalance = parseFloat(myETH.innerText) || 0;
+      const totalETHValue = ethBalance * currentEthPrice;
+
+      myETH.innerText = "$" + totalETHValue.toFixed(2);
+
+      const usdtBalance = parseFloat(myUSDT.innerText) || 0;
+      const totalUSDTValue = usdtBalance * 1;
+
+      myUSDT.innerText = "$" + totalUSDTValue.toFixed(2);
+
       if (usdtPriceEl) {
         usdtPriceEl.innerText = "$1.00";
       }
