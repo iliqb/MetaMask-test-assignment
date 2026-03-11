@@ -74,6 +74,7 @@
         It becomes visible after a successful wallet connection.
       -->
       <div id="walletInfo" class="wallet hidden">
+        <div id="systemMessage" class="hidden"></div>
         <p><strong>Status:</strong> <span id="statusText"></span></p>
         <p>
           <strong
@@ -107,6 +108,13 @@
             <td><span id="ethBalance"></span></td>
             <td><span id="ethPrice"></span></td>
           </tr>
+          <!-- 
+          <tr id="myPrice">
+            <td></td>
+            <td><span id="myETH">15</span></td>
+            <td></td>
+          </tr>
+            -->
           <tr>
             <td>
               <strong
@@ -134,7 +142,7 @@
           <path class="checkmark-check" fill="none" d="M14 27 L22 35 L38 16" />
         </svg>
       </div>
-      <button id="disconnectBtn" class="hidden">Disconnect</button>
+      <button id="disconnectBtn" class="hidden">Log Out</button>
     </div>
 
     <footer>

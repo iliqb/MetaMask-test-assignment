@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("toggleDark");
   const infoBtn = document.getElementById("infoBtn");
   const modal = document.getElementById("infoModal");
-  const closeBtn = document.getElementById("closeBtn");
   const copyBtn = document.getElementById("copyAddressBtn");
   const disconnectBtn = document.getElementById("disconnectBtn");
 
@@ -175,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function connectWallet() {
     try {
       if (!window.ethereum) return;
-
+      connectBtn.disabled = true;
+      connectBtn.innerText = "Connecting...";
       showLoader();
       statusText.innerText = "Connecting...";
 
@@ -291,38 +291,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const ethPriceEl = document.getElementById("ethPrice");
   const usdtPriceEl = document.getElementById("usdtPrice");
+  let lastEthPrice = null;
 
   async function loadPrices() {
     try {
       const response = await fetch(
-        "https://corsproxy.io/?https://api.coingecko.com/api/v3/simple/price?ids=ethereum,tether&vs_currencies=usd",
+        "https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT",
       );
+      if (!response.ok) throw new Error(`HTTP error ${response.status}`);
 
       const data = await response.json();
 
-      const ethPrice = data.ethereum.usd;
-      const usdtPrice = data.tether.usd;
-
-      updatePrice(ethPrice);
-
-      usdtPriceEl.innerText = "$" + usdtPrice.toFixed(2);
+      if (data.price) {
+        const currentEthPrice = parseFloat(data.price);
+        updateEthUI(currentEthPrice);
+      } else {
+        console.warn("ETH price was not received");
+      }
+      if (usdtPriceEl) {
+        usdtPriceEl.innerText = "$1.00";
+      }
     } catch (error) {
       console.error("Error fetching prices:", error);
+
+      if (ethPriceEl) ethPriceEl.innerText = "Error";
+      if (usdtPriceEl) usdtPriceEl.innerText = "Error";
     }
   }
 
-  function updatePrice(newPrice) {
-    if (lastPrice !== null) {
-      if (newPrice > lastPrice) {
-        ethPriceEl.style.color = "lime";
-      } else if (newPrice < lastPrice) {
-        ethPriceEl.style.color = "red";
+  function updateEthUI(newPrice) {
+    if (!ethPriceEl) return;
+
+    if (lastEthPrice !== null) {
+      if (newPrice > lastEthPrice) {
+        ethPriceEl.style.color = "#00ff00";
+      } else if (newPrice < lastEthPrice) {
+        ethPriceEl.style.color = "#ff4444";
       }
+      setTimeout(() => {
+        ethPriceEl.style.color = "";
+      }, 2000);
     }
 
-    ethPriceEl.innerText = "$" + newPrice.toFixed(2);
+    ethPriceEl.innerText =
+      "$" +
+      newPrice.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
 
-    lastPrice = newPrice;
+    lastEthPrice = newPrice;
   }
 
   loadPrices();
@@ -331,6 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================
      Disconnect  
   ========================== */
+
   function disconnectWallet() {
     if (blockListener) {
       provider.off("block", blockListener);
@@ -346,6 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
     walletInfo.classList.add("hidden");
     disconnectBtn.classList.add("hidden");
     connectBtn.classList.remove("hidden");
+    connectBtn.disabled = false;
     connectBtn.innerText = "Connect Wallet";
     statusText.innerText = "Disconnected ⚪";
     ethBalanceEl.innerText = "—";
